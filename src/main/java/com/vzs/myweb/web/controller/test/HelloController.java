@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by byao on 30/07/2017.
@@ -59,23 +60,25 @@ public class HelloController {
         PageInfo pi = new PageInfo();
         List<MockWind> mockWindList = Lists.newArrayList();
         for (int i = 0 ; i< 100 ;i++) {
-            mockWindList.add(mock());
+            mockWindList.add(mock(i));
         }
 
         pi.setRows(mockWindList);
         return pi;
     }
 
-    private MockWind mock() {
+    private MockWind mock(int i) {
+        Random randomGenerator = new Random();
+        int seed = 99;
         MockWind mockWind = new MockWind();
-        mockWind.setWind10("01");
-        mockWind.setWind11("11");
-        mockWind.setWind20("20");
-        mockWind.setWind21("21");
-        mockWind.setWind30("30");
-        mockWind.setWind31("31");
-        mockWind.setWind40("40");
-        mockWind.setWind41("41");
+        mockWind.setWind10(i + "");
+        mockWind.setWind11(randomGenerator.nextInt(seed) + "");
+        mockWind.setWind20(i + "");
+        mockWind.setWind21(randomGenerator.nextInt(seed) + "");
+        mockWind.setWind30(i + "");
+        mockWind.setWind31(randomGenerator.nextInt(seed) + "");
+        mockWind.setWind40(i + "");
+        mockWind.setWind41(randomGenerator.nextInt(seed) + "");
         return  mockWind;
     }
 
