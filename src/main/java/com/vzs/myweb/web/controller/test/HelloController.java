@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
@@ -80,6 +82,42 @@ public class HelloController {
         mockWind.setWind40(i + "");
         mockWind.setWind41(randomGenerator.nextInt(seed) + "");
         return  mockWind;
+    }
+
+
+
+    @RequestMapping("/mock/dbd")
+    @ResponseBody
+    public List<DateValueVo> finddbdData() {
+        Random randomGenerator = new Random();
+        List<DateValueVo> dateValueVos = Lists.newArrayList();
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        for (int i = 0 ; i< 100 ;i++) {
+            cal.add(Calendar.DAY_OF_MONTH, 1);
+            DateValueVo dateValueVo = new DateValueVo();
+            dateValueVo.setDate(simpleDateFormat.format(cal.getTime()));
+            dateValueVo.setValue(randomGenerator.nextInt(100) + "");
+            dateValueVos.add(dateValueVo);
+
+        }
+        return dateValueVos;
+    }
+
+    @RequestMapping("/mock/stc")
+    @ResponseBody
+    public List<YearValueVo> findStcData() {
+        Random randomGenerator = new Random();
+        Calendar cal = Calendar.getInstance();
+        List<YearValueVo> dateValueVos = Lists.newArrayList();
+        for (int i = 0 ; i<100; i++) {
+            cal.add(Calendar.YEAR, 1);
+            YearValueVo yearValueVo = new YearValueVo();
+            yearValueVo.setYear(cal.get(Calendar.YEAR) + "");
+            yearValueVo.setValue(randomGenerator.nextInt(100) + "");
+            dateValueVos.add(yearValueVo);
+        }
+        return dateValueVos;
     }
 
 }

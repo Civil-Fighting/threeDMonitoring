@@ -11,6 +11,7 @@
         #lcwsaz{width:100%;height:200px;float:top;}
         #smc{width:100%;height:200px;float:top;}
         #stc{width:100%;height:200px;float:top;}
+        #dbd{width:100%;height:200px;float:top;}
         #middle{width:60%;height:100%;float:left;}
         #right{width:50%;height:100%;float:left;}
     </style>
@@ -21,13 +22,11 @@
     <link rel="stylesheet" type="text/css" href="http://localhost:8080/resources/js/easyUI/themes/icon.css">
     <script type="text/javascript" src="http://localhost:8080/resources/js/easyUI/jquery.easyui.min.js"></script>
 
-    <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
-    <script src="https://www.amcharts.com/lib/3/serial.js"></script>
-    <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
-    <script src="https://www.amcharts.com/lib/3/serial.js"></script>
-    <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
-    <script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
-    <script src="https://www.amcharts.com/lib/3/pie.js"></script>
+    <script src="http://localhost:8080/resources/js/amcharts/amcharts.js"></script>
+    <script src="http://localhost:8080/resources/js/amcharts/serial.js"></script>
+    <script src="http://localhost:8080/resources/js/amcharts/serial.js"></script>
+    <script src="http://localhost:8080/resources/js/amcharts/themes/light.js"></script>
+    <script src="http://localhost:8080/resources/js/amcharts/pie.js"></script>
 
     <script type="text/javascript">
         $(function () {
@@ -109,8 +108,8 @@
                     SetInfoText(myCmiWindow.getLastError().message);
                     return;
                 }
-                SetInfoText("Direct export from Autodesk's Revit &reg;");
-
+                //SetInfoText("Direct export from Autodesk's Revit &reg;");
+                SetInfoText("");
                 myCmiWindow.setBgSkyBox("SunSet");
                 myCmiWindow.useSkyBoxBackground = true;
                 myCmiWindow.setNotificationHandler(OnCmiNotification);
@@ -142,9 +141,13 @@
         function OnCmiNotification (event)
         {
             var txtParts = event.data.split("|");
-            for (var i = 0 ; i < txtParts.length ; i++) {
-                console.log(txtParts[i]);
+            if ( event.data.indexOf("传感器1") >= 0 ||  event.data.indexOf("Ben") >= 0) {
+                console.log(event.data);
             }
+
+//            for (var i = 0 ; i < txtParts.length ; i++) {
+//                console.log(txtParts[i]);
+//            }
 
             if(txtParts[0]=="CMI_ERROR")
             {
@@ -152,10 +155,18 @@
             }
             else if ((txtParts[0]=="CMI_INFO")&&(txtParts[1]=="ModelLoading"))
             {
+                if (txtParts[2].indexOf("传感器") >= 0) {
+                    console.log(txtParts);
+                }
                 SetStatusText(txtParts[2]);
             }
             else if ((txtParts[0]=="CMI_INFO")&&(txtParts[1]=="ModelOpened"))
             {
+
+                if (txtParts[2].indexOf("传感器") >= 0) {
+                    console.log(txtParts);
+                }
+
                 var selectObject = document.getElementById("ModelSelection");
 
                 //Rebuild assembly tree
@@ -163,7 +174,7 @@
                 {
                     case 1:
                     case 5:
-                        myAssemblyBrowser.buildAssemblyTree(myCmiWindow.getCmiModel(),true,0,"Model structure");
+                        myAssemblyBrowser.buildAssemblyTree(myCmiWindow.getCmiModel(),true,0,"传感器");
                         myAssemblyBrowser.rebuildTreeViewTable();
                         SetStatusText("");
                         break;
@@ -178,7 +189,7 @@
                         SetStatusText("");
                         break;
                     default:
-                        myAssemblyBrowser.buildAssemblyTree(myCmiWindow.getCmiModel(),true,1,"Model structure");
+                        myAssemblyBrowser.buildAssemblyTree(myCmiWindow.getCmiModel(),true,1,"传感器");
                         myAssemblyBrowser.rebuildTreeViewTable();
                         SetStatusText("");
                         break;
@@ -385,6 +396,7 @@
             "type": "serial",
             "theme": "light",
             "marginRight": 80,
+            "titles": [{"text": "风压"}],
             "autoMarginOffset": 20,
             "marginTop": 7,
             "dataProvider": chartData,
@@ -464,473 +476,258 @@
 
 
     <script>
-        var chart = AmCharts.makeChart("smc", {
+        function createSmc(data) {
+            var chart = AmCharts.makeChart("smc", {
+                "type": "serial",
+                "theme": "light",
+                "marginTop": 0,
+                "marginRight": 80,
+                "titles": [{"text": "风速"}],
+                "dataProvider": data,
+                "valueAxes": [{
+                    "axisAlpha": 0,
+                    "position": "left"
+                }],
+                "graphs": [{
+                    "id": "g1",
+                    "balloonText": "[[category]]<br><b><span style='font-size:14px;'>[[value]]</span></b>",
+                    "bullet": "round",
+                    "bulletSize": 8,
+                    "lineColor": "#d1655d",
+                    "lineThickness": 2,
+                    "negativeLineColor": "#637bb6",
+                    "type": "smoothedLine",
+                    "valueField": "value"
+                }],
+                "chartScrollbar": {
+                    "graph": "g1",
+                    "gridAlpha": 0,
+                    "color": "#888888",
+                    "scrollbarHeight": 55,
+                    "backgroundAlpha": 0,
+                    "selectedBackgroundAlpha": 0.1,
+                    "selectedBackgroundColor": "#888888",
+                    "graphFillAlpha": 0,
+                    "autoGridCount": true,
+                    "selectedGraphFillAlpha": 0,
+                    "graphLineAlpha": 0.2,
+                    "graphLineColor": "#c2c2c2",
+                    "selectedGraphLineColor": "#888888",
+                    "selectedGraphLineAlpha": 1
+
+                },
+                "chartCursor": {
+                    "categoryBalloonDateFormat": "YYYY",
+                    "cursorAlpha": 0,
+                    "valueLineEnabled": true,
+                    "valueLineBalloonEnabled": true,
+                    "valueLineAlpha": 0.5,
+                    "fullWidth": true
+                },
+                "dataDateFormat": "YYYY",
+                "categoryField": "year",
+                "categoryAxis": {
+                    "minPeriod": "YYYY",
+                    "parseDates": true,
+                    "minorGridAlpha": 0.1,
+                    "minorGridEnabled": true
+                },
+                "export": {
+                    "enabled": true
+                }
+            });
+
+            chart.addListener("rendered", zoomChart);
+            if (chart.zoomChart) {
+                chart.zoomChart();
+            }
+
+            function zoomChart() {
+                chart.zoomToIndexes(Math.round(chart.dataProvider.length * 0.4), Math.round(chart.dataProvider.length * 0.55));
+            }
+        }
+
+
+        fetch('http://localhost:8080/3d/mock/stc').then((response)=>response.json()).then((list)=> {
+
+            // list is a []
+            createSmc(list);
+        });
+    </script>
+    <script>
+        function createStc(data) {
+            var chart = AmCharts.makeChart("stc", {
+                "type": "serial",
+                "titles": [{"text": "应力"}],
+                "theme": "light",
+                "autoMarginOffset": 25,
+                "dataProvider": data,
+                "valueAxes": [{
+                    "axisAlpha": 0,
+                    "position": "right"
+                }],
+                "graphs": [{
+                    "id": "g1",
+                    "balloonText": "[[category]]<br><b>[[value]] C</b>",
+                    "type": "step",
+                    "lineThickness": 2,
+                    "bullet": "square",
+                    "bulletAlpha": 0,
+                    "bulletSize": 4,
+                    "bulletBorderAlpha": 0,
+                    "valueField": "value"
+                }],
+                "chartScrollbar": {
+                    "graph": "g1",
+                    "gridAlpha": 0,
+                    "color": "#888888",
+                    "scrollbarHeight": 55,
+                    "backgroundAlpha": 0,
+                    "selectedBackgroundAlpha": 0.1,
+                    "selectedBackgroundColor": "#888888",
+                    "graphFillAlpha": 0,
+                    "autoGridCount": true,
+                    "selectedGraphFillAlpha": 0,
+                    "graphLineAlpha": 1,
+                    "graphLineColor": "#c2c2c2",
+                    "selectedGraphLineColor": "#888888",
+                    "selectedGraphLineAlpha": 1
+                },
+                "chartCursor": {
+                    "fullWidth": true,
+                    "categoryBalloonDateFormat": "YYYY",
+                    "cursorAlpha": 0.05,
+                    "graphBulletAlpha": 1
+                },
+                "dataDateFormat": "YYYY",
+                "categoryField": "year",
+                "categoryAxis": {
+                    "minPeriod": "YYYY",
+                    "parseDates": true,
+                    "gridAlpha": 0
+                },
+                "export": {
+                    "enabled": true
+                }
+            });
+
+            chart.addListener("dataUpdated", zoomChart);
+
+            function zoomChart() {
+                chart.zoomToDates(new Date(1965, 0), new Date(1975, 0));
+            }
+        }
+
+        fetch('http://localhost:8080/3d/mock/stc').then((response)=>response.json()).then((list)=> {
+
+            // list is a []
+            createStc(list);
+        });
+    </script>
+    <script>
+        function createDbD(data) {
+        var chart = AmCharts.makeChart("dbd", {
             "type": "serial",
             "theme": "light",
-            "marginTop":0,
-            "marginRight": 80,
-            "dataProvider": [{
-                "year": "1950",
-                "value": -0.307
-            }, {
-                "year": "1951",
-                "value": -0.168
-            }, {
-                "year": "1952",
-                "value": -0.073
-            }, {
-                "year": "1953",
-                "value": -0.027
-            }, {
-                "year": "1954",
-                "value": -0.251
-            }, {
-                "year": "1955",
-                "value": -0.281
-            }, {
-                "year": "1956",
-                "value": -0.348
-            }, {
-                "year": "1957",
-                "value": -0.074
-            }, {
-                "year": "1958",
-                "value": -0.011
-            }, {
-                "year": "1959",
-                "value": -0.074
-            }, {
-                "year": "1960",
-                "value": -0.124
-            }, {
-                "year": "1961",
-                "value": -0.024
-            }, {
-                "year": "1962",
-                "value": -0.022
-            }, {
-                "year": "1963",
-                "value": 0
-            }, {
-                "year": "1964",
-                "value": -0.296
-            }, {
-                "year": "1965",
-                "value": -0.217
-            }, {
-                "year": "1966",
-                "value": -0.147
-            }, {
-                "year": "1967",
-                "value": -0.15
-            }, {
-                "year": "1968",
-                "value": -0.16
-            }, {
-                "year": "1969",
-                "value": -0.011
-            }, {
-                "year": "1970",
-                "value": -0.068
-            }, {
-                "year": "1971",
-                "value": -0.19
-            }, {
-                "year": "1972",
-                "value": -0.056
-            }, {
-                "year": "1973",
-                "value": 0.077
-            }, {
-                "year": "1974",
-                "value": -0.213
-            }, {
-                "year": "1975",
-                "value": -0.17
-            }, {
-                "year": "1976",
-                "value": -0.254
-            }, {
-                "year": "1977",
-                "value": 0.019
-            }, {
-                "year": "1978",
-                "value": -0.063
-            }, {
-                "year": "1979",
-                "value": 0.05
-            }, {
-                "year": "1980",
-                "value": 0.077
-            }, {
-                "year": "1981",
-                "value": 0.12
-            }, {
-                "year": "1982",
-                "value": 0.011
-            }, {
-                "year": "1983",
-                "value": 0.177
-            }, {
-                "year": "1984",
-                "value": -0.021
-            }, {
-                "year": "1985",
-                "value": -0.037
-            }, {
-                "year": "1986",
-                "value": 0.03
-            }, {
-                "year": "1987",
-                "value": 0.179
-            }, {
-                "year": "1988",
-                "value": 0.18
-            }, {
-                "year": "1989",
-                "value": 0.104
-            }, {
-                "year": "1990",
-                "value": 0.255
-            }, {
-                "year": "1991",
-                "value": 0.21
-            }, {
-                "year": "1992",
-                "value": 0.065
-            }, {
-                "year": "1993",
-                "value": 0.11
-            }, {
-                "year": "1994",
-                "value": 0.172
-            }, {
-                "year": "1995",
-                "value": 0.269
-            }, {
-                "year": "1996",
-                "value": 0.141
-            }, {
-                "year": "1997",
-                "value": 0.353
-            }, {
-                "year": "1998",
-                "value": 0.548
-            }, {
-                "year": "1999",
-                "value": 0.298
-            }, {
-                "year": "2000",
-                "value": 0.267
-            }, {
-                "year": "2001",
-                "value": 0.411
-            }, {
-                "year": "2002",
-                "value": 0.462
-            }, {
-                "year": "2003",
-                "value": 0.47
-            }, {
-                "year": "2004",
-                "value": 0.445
-            }, {
-                "year": "2005",
-                "value": 0.47
-            }],
+            "marginRight": 40,
+            "marginLeft": 40,
+            "autoMarginOffset": 20,
+            "titles":[{"text":"应变"}],
+            "mouseWheelZoomEnabled":true,
+            "dataDateFormat": "YYYY-MM-DD",
             "valueAxes": [{
+                "id": "v1",
                 "axisAlpha": 0,
-                "position": "left"
+                "position": "left",
+                "ignoreAxisWidth":true
             }],
+            "balloon": {
+                "borderThickness": 1,
+                "shadowAlpha": 0
+            },
             "graphs": [{
-                "id":"g1",
-                "balloonText": "[[category]]<br><b><span style='font-size:14px;'>[[value]]</span></b>",
+                "id": "g1",
+                "balloon":{
+                    "drop":true,
+                    "adjustBorderColor":false,
+                    "color":"#ffffff"
+                },
                 "bullet": "round",
-                "bulletSize": 8,
-                "lineColor": "#d1655d",
+                "bulletBorderAlpha": 1,
+                "bulletColor": "#FFFFFF",
+                "bulletSize": 5,
+                "hideBulletsCount": 50,
                 "lineThickness": 2,
-                "negativeLineColor": "#637bb6",
-                "type": "smoothedLine",
-                "valueField": "value"
+                "title": "red line",
+                "useLineColorForBulletBorder": true,
+                "valueField": "value",
+                "balloonText": "<span style='font-size:18px;'>[[value]]</span>"
             }],
             "chartScrollbar": {
-                "graph":"g1",
-                "gridAlpha":0,
-                "color":"#888888",
-                "scrollbarHeight":55,
-                "backgroundAlpha":0,
-                "selectedBackgroundAlpha":0.1,
-                "selectedBackgroundColor":"#888888",
-                "graphFillAlpha":0,
+                "graph": "g1",
+                "oppositeAxis":false,
+                "offset":30,
+                "scrollbarHeight": 80,
+                "backgroundAlpha": 0,
+                "selectedBackgroundAlpha": 0.1,
+                "selectedBackgroundColor": "#888888",
+                "graphFillAlpha": 0,
+                "graphLineAlpha": 0.5,
+                "selectedGraphFillAlpha": 0,
+                "selectedGraphLineAlpha": 1,
                 "autoGridCount":true,
-                "selectedGraphFillAlpha":0,
-                "graphLineAlpha":0.2,
-                "graphLineColor":"#c2c2c2",
-                "selectedGraphLineColor":"#888888",
-                "selectedGraphLineAlpha":1
-
+                "color":"#AAAAAA"
             },
             "chartCursor": {
-                "categoryBalloonDateFormat": "YYYY",
-                "cursorAlpha": 0,
-                "valueLineEnabled":true,
-                "valueLineBalloonEnabled":true,
-                "valueLineAlpha":0.5,
-                "fullWidth":true
+                "pan": true,
+                "valueLineEnabled": true,
+                "valueLineBalloonEnabled": true,
+                "cursorAlpha":1,
+                "cursorColor":"#258cbb",
+                "limitToGraph":"g1",
+                "valueLineAlpha":0.2,
+                "valueZoomable":true
             },
-            "dataDateFormat": "YYYY",
-            "categoryField": "year",
+            "valueScrollbar":{
+                "oppositeAxis":false,
+                "offset":50,
+                "scrollbarHeight":10
+            },
+            "categoryField": "date",
             "categoryAxis": {
-                "minPeriod": "YYYY",
                 "parseDates": true,
-                "minorGridAlpha": 0.1,
+                "dashLength": 1,
                 "minorGridEnabled": true
             },
             "export": {
                 "enabled": true
-            }
+            },
+            "dataProvider": data
         });
 
         chart.addListener("rendered", zoomChart);
-        if(chart.zoomChart){
-            chart.zoomChart();
+
+        zoomChart();
+
+        function zoomChart() {
+            chart.zoomToIndexes(chart.dataProvider.length - 40, chart.dataProvider.length - 1);
         }
 
-        function zoomChart(){
-            chart.zoomToIndexes(Math.round(chart.dataProvider.length * 0.4), Math.round(chart.dataProvider.length * 0.55));
         }
-    </script>
-    <script>
-        var chart = AmCharts.makeChart("stc", {
-            "type": "serial",
-            "titles":[{"text":"Step Line Chart"}],
-            "theme": "light",
-            "autoMarginOffset":25,
-            "dataProvider": [{
-                "year": "1950",
-                "value": -0.307
-            }, {
-                "year": "1951",
-                "value": -0.168
-            }, {
-                "year": "1952",
-                "value": -0.073
-            }, {
-                "year": "1953",
-                "value": -0.027
-            }, {
-                "year": "1954",
-                "value": -0.251
-            }, {
-                "year": "1955",
-                "value": -0.281
-            }, {
-                "year": "1956",
-                "value": -0.348
-            }, {
-                "year": "1957",
-                "value": -0.074
-            }, {
-                "year": "1958",
-                "value": -0.011
-            }, {
-                "year": "1959",
-                "value": -0.074
-            }, {
-                "year": "1960",
-                "value": -0.124
-            }, {
-                "year": "1961",
-                "value": -0.024
-            }, {
-                "year": "1962",
-                "value": -0.022
-            }, {
-                "year": "1963",
-                "value": 0
-            }, {
-                "year": "1964",
-                "value": -0.296
-            }, {
-                "year": "1965",
-                "value": -0.217
-            }, {
-                "year": "1966",
-                "value": -0.147
-            }, {
-                "year": "1967",
-                "value": -0.15
-            }, {
-                "year": "1968",
-                "value": -0.16
-            }, {
-                "year": "1969",
-                "value": -0.011
-            }, {
-                "year": "1970",
-                "value": -0.068
-            }, {
-                "year": "1971",
-                "value": -0.19
-            }, {
-                "year": "1972",
-                "value": -0.056
-            }, {
-                "year": "1973",
-                "value": 0.077
-            }, {
-                "year": "1974",
-                "value": -0.213
-            }, {
-                "year": "1975",
-                "value": -0.17
-            }, {
-                "year": "1976",
-                "value": -0.254
-            }, {
-                "year": "1977",
-                "value": 0.019
-            }, {
-                "year": "1978",
-                "value": -0.063
-            }, {
-                "year": "1979",
-                "value": 0.05
-            }, {
-                "year": "1980",
-                "value": 0.077
-            }, {
-                "year": "1981",
-                "value": 0.12
-            }, {
-                "year": "1982",
-                "value": 0.011
-            }, {
-                "year": "1983",
-                "value": 0.177
-            }, {
-                "year": "1984",
-                "value": -0.021
-            }, {
-                "year": "1985",
-                "value": -0.037
-            }, {
-                "year": "1986",
-                "value": 0.03
-            }, {
-                "year": "1987",
-                "value": 0.179
-            }, {
-                "year": "1988",
-                "value": 0.18
-            }, {
-                "year": "1989",
-                "value": 0.104
-            }, {
-                "year": "1990",
-                "value": 0.255
-            }, {
-                "year": "1991",
-                "value": 0.21
-            }, {
-                "year": "1992",
-                "value": 0.065
-            }, {
-                "year": "1993",
-                "value": 0.11
-            }, {
-                "year": "1994",
-                "value": 0.172
-            }, {
-                "year": "1995",
-                "value": 0.269
-            }, {
-                "year": "1996",
-                "value": 0.141
-            }, {
-                "year": "1997",
-                "value": 0.353
-            }, {
-                "year": "1998",
-                "value": 0.548
-            }, {
-                "year": "1999",
-                "value": 0.298
-            }, {
-                "year": "2000",
-                "value": 0.267
-            }, {
-                "year": "2001",
-                "value": 0.411
-            }, {
-                "year": "2002",
-                "value": 0.462
-            }, {
-                "year": "2003",
-                "value": 0.47
-            }, {
-                "year": "2004",
-                "value": 0.445
-            }, {
-                "year": "2005",
-                "value": 0.47
-            }],
-            "valueAxes": [{
-                "axisAlpha": 0,
-                "position": "right"
-            }],
-            "graphs": [{
-                "id":"g1",
-                "balloonText": "[[category]]<br><b>[[value]] C</b>",
-                "type": "step",
-                "lineThickness": 2,
-                "bullet":"square",
-                "bulletAlpha":0,
-                "bulletSize":4,
-                "bulletBorderAlpha":0,
-                "valueField": "value"
-            }],
-            "chartScrollbar": {
-                "graph":"g1",
-                "gridAlpha":0,
-                "color":"#888888",
-                "scrollbarHeight":55,
-                "backgroundAlpha":0,
-                "selectedBackgroundAlpha":0.1,
-                "selectedBackgroundColor":"#888888",
-                "graphFillAlpha":0,
-                "autoGridCount":true,
-                "selectedGraphFillAlpha":0,
-                "graphLineAlpha":1,
-                "graphLineColor":"#c2c2c2",
-                "selectedGraphLineColor":"#888888",
-                "selectedGraphLineAlpha":1
-            },
-            "chartCursor": {
-                "fullWidth":true,
-                "categoryBalloonDateFormat": "YYYY",
-                "cursorAlpha": 0.05,
-                "graphBulletAlpha": 1
-            },
-            "dataDateFormat": "YYYY",
-            "categoryField": "year",
-            "categoryAxis": {
-                "minPeriod": "YYYY",
-                "parseDates": true,
-                "gridAlpha": 0
-            },
-            "export": {
-                "enabled": true
-            }
+        fetch('http://localhost:8080/3d/mock/dbd').then((response)=>response.json()).then((list)=> {
+
+            // list is a []
+            createDbD(list);
         });
 
-        chart.addListener("dataUpdated", zoomChart);
+//        $.ajax({
+//            url: 'http://localhost:8080/3d/mock/dbd',
+//            success(data) {
+//                createDbD(data);
+//            }
+//        });
 
-        function zoomChart(){
-            chart.zoomToDates(new Date(1965, 0), new Date(1975, 0));
-        }
     </script>
-
 </head>
 <body>
 
@@ -943,9 +740,10 @@
             <div id = "lcwsaz"></div>
             <div id = "smc"></div>
             <div id = "stc"></div>
+            <div id = "dbd"></div>
         </div>
         <div id="right">
-                <table class="easyui-datagrid" title="Column Group" style="width:100%;height:600px"
+                <table class="easyui-datagrid" title="数据组表" style="width:100%;height:800px"
                        data-options="rownumbers:true,singleSelect:true,url:'http://localhost:8080/3d/mock',method:'get'">
                     <thead>
                     <tr>
