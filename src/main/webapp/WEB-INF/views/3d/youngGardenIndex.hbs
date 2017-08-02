@@ -1,15 +1,8 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: byao
-  Date: 23/07/2017
-  Time: 12:35 PM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <html>
 <head>
     <title>Index</title>
-    <script type="text/javascript" src="http://localhost:8080/js/easyUI/jquery.min.js"></script>
+    <script type="text/javascript" src="http://localhost:8080/resources/js/easyUI/jquery.min.js"></script>
     <style type="text/css">
         #container{width:100%;height:auto;margin:0px auto;}
         #banner{width:90%;height:auto;}
@@ -24,9 +17,9 @@
 
 
     <!-- Resources -->
-    <link rel="stylesheet" type="text/css" href="http://localhost:8080/js/easyUI/themes/default/easyui.css">
-    <link rel="stylesheet" type="text/css" href="http://localhost:8080/js/easyUI/themes/icon.css">
-    <script type="text/javascript" src="http://localhost:8080/js/easyUI/jquery.easyui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://localhost:8080/resources/js/easyUI/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="http://localhost:8080/resources/js/easyUI/themes/icon.css">
+    <script type="text/javascript" src="http://localhost:8080/resources/js/easyUI/jquery.easyui.min.js"></script>
 
     <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
     <script src="https://www.amcharts.com/lib/3/serial.js"></script>
@@ -41,7 +34,7 @@
 //            $("#btn").click(function () {
 //                alert();
 //                $("#t1").val("woshishei");
-                $("#banner").load("/cmall/3d/youngGarden.do", null,  function(response, status,  XMLHttpRequest){
+                $("#banner").load("/3d/youngGarden", null,  function(response, status,  XMLHttpRequest){
 
                     cmiWindowStart();
                     $(window).resize(function(){
@@ -75,15 +68,15 @@
 
     </script>
 
-    <script type="text/javascript" src="http://localhost:8080/js/3d/CmiScripts/CmiAssemblyBrowser.js"></script>
-    <script type="text/javascript" src="http://localhost:8080/js/3d/CmiScripts/CmiLayerBrowser.js"></script>
-    <script type="text/javascript" src="http://localhost:8080/js/3d/CmiScripts/CmiWindowDefinition.js"></script>
-    <script type="text/javascript" src="http://localhost:8080/js/3d/CmiScripts/CmiObjectDefinitions.js"></script>
-    <script type="text/javascript" src="http://localhost:8080/js/3d/CmiScripts/CmiShaderDefinitions.js"></script>
-    <script type="text/javascript" src="http://localhost:8080/js/3d/CmiScripts/CmiHelperFunctions.js"></script>
-    <script type="text/javascript" src="http://localhost:8080/js/3d/CmiScripts/CmiShaderSources.js"></script>
-    <script type="text/javascript" src="http://localhost:8080/js/3d/CmiScripts/CmiModelDefinition.js"></script>
-    <script type="text/javascript" src="http://localhost:8080/js/3d/CmiScripts/ThirdPartyHelpers.js"></script>
+    <script type="text/javascript" src="http://localhost:8080/resources/js/3d/CmiScripts/CmiAssemblyBrowser.js"></script>
+    <script type="text/javascript" src="http://localhost:8080/resources/js/3d/CmiScripts/CmiLayerBrowser.js"></script>
+    <script type="text/javascript" src="http://localhost:8080/resources/js/3d/CmiScripts/CmiWindowDefinition.js"></script>
+    <script type="text/javascript" src="http://localhost:8080/resources/js/3d/CmiScripts/CmiObjectDefinitions.js"></script>
+    <script type="text/javascript" src="http://localhost:8080/resources/js/3d/CmiScripts/CmiShaderDefinitions.js"></script>
+    <script type="text/javascript" src="http://localhost:8080/resources/js/3d/CmiScripts/CmiHelperFunctions.js"></script>
+    <script type="text/javascript" src="http://localhost:8080/resources/js/3d/CmiScripts/CmiShaderSources.js"></script>
+    <script type="text/javascript" src="http://localhost:8080/resources/js/3d/CmiScripts/CmiModelDefinition.js"></script>
+    <script type="text/javascript" src="http://localhost:8080/resources/js/3d/CmiScripts/ThirdPartyHelpers.js"></script>
     <script type="text/javascript">
 
         var myCmiWindow;
@@ -121,7 +114,7 @@
                 myCmiWindow.setBgSkyBox("SunSet");
                 myCmiWindow.useSkyBoxBackground = true;
                 myCmiWindow.setNotificationHandler(OnCmiNotification);
-                myCmiWindow.loadModelFromUrl("http://localhost:8080/js/3d/youngGarde2.wpm");
+                myCmiWindow.loadModelFromUrl("http://localhost:8080/resources/js/3d/youngGarde2.wpm");
                 myCmiWindow.switchToPerspective(true);
                 myCmiWindow.setMouseModeToRotation();
                 myCmiWindow.handleArrowKeys = false;
