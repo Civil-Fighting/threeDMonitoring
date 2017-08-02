@@ -548,10 +548,17 @@
         }
 
 
-        fetch('http://localhost:8080/3d/mock/stc').then((response)=>response.json()).then((list)=> {
+//        fetch('http://localhost:8080/3d/mock/stc').then((response)=>response.json()).then((list)=> {
+//
+//            // list is a []
+//            createSmc(list);
+//        });
 
-            // list is a []
-            createSmc(list);
+        $.ajax({
+            url: 'http://localhost:8080/3d/mock/stc',
+            success(data) {
+                createSmc(data);
+            }
         });
     </script>
     <script>
@@ -618,10 +625,17 @@
             }
         }
 
-        fetch('http://localhost:8080/3d/mock/stc').then((response)=>response.json()).then((list)=> {
+//        fetch('http://localhost:8080/3d/mock/stc').then((response)=>response.json()).then((list)=> {
+//
+//            // list is a []
+//            createStc(list);
+//        });
 
-            // list is a []
-            createStc(list);
+        $.ajax({
+            url: 'http://localhost:8080/3d/mock/stc',
+            success(data) {
+                createStc(data);
+            }
         });
     </script>
     <script>
@@ -714,18 +728,18 @@
         }
 
         }
-        fetch('http://localhost:8080/3d/mock/dbd').then((response)=>response.json()).then((list)=> {
-
-            // list is a []
-            createDbD(list);
-        });
-
-//        $.ajax({
-//            url: 'http://localhost:8080/3d/mock/dbd',
-//            success(data) {
-//                createDbD(data);
-//            }
+//        fetch('http://localhost:8080/3d/mock/dbd').then((response)=>response.json()).then((list)=> {
+//
+//            // list is a []
+//            createDbD(list);
 //        });
+
+        $.ajax({
+            url: 'http://localhost:8080/3d/mock/dbd',
+            success(data) {
+                createDbD(data);
+            }
+        });
 
     </script>
 </head>
