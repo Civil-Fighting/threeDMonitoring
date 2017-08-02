@@ -27,6 +27,7 @@
     <script src="http://localhost:8080/resources/js/amcharts/serial.js"></script>
     <script src="http://localhost:8080/resources/js/amcharts/themes/light.js"></script>
     <script src="http://localhost:8080/resources/js/amcharts/pie.js"></script>
+    <script src="http://localhost:8080/resources/js/amcharts/lang/zh.js"></script>
 
     <script type="text/javascript">
         $(function () {
@@ -393,6 +394,7 @@
         //Line Chart with Scroll and Zoom
         var chartData = generateChartData();
         var chart = AmCharts.makeChart("lcwsaz", {
+            "language": "zh",
             "type": "serial",
             "theme": "light",
             "marginRight": 80,
@@ -478,6 +480,7 @@
     <script>
         function createSmc(data) {
             var chart = AmCharts.makeChart("smc", {
+                "language": "zh",
                 "type": "serial",
                 "theme": "light",
                 "marginTop": 0,
@@ -564,6 +567,7 @@
     <script>
         function createStc(data) {
             var chart = AmCharts.makeChart("stc", {
+                "language": "zh",
                 "type": "serial",
                 "titles": [{"text": "应力"}],
                 "theme": "light",
@@ -641,6 +645,7 @@
     <script>
         function createDbD(data) {
         var chart = AmCharts.makeChart("dbd", {
+            "language": "zh",
             "type": "serial",
             "theme": "light",
             "marginRight": 40,
