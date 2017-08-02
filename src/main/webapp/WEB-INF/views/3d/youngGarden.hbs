@@ -2,18 +2,18 @@
 <html>
 <head>
   <title>WebGl-Publisher: Architecture Models</title>
-  <%--<meta name="viewport" content="width=device-width, initial-scale=1">--%>
+  <!--<%--<meta name="viewport" content="width=device-width, initial-scale=1">--%>-->
 
 </head>
 
 <body style="background-color:#57616B; color:#CCCCCC; font-family:Arial,Helvetica,Geneva,Sans-serif;" >
 <form name="ControlForm">
   <div id="CmiToolbar"  class="cmiStyle" style="font-size:90%;">
-    <input type="radio" id="MouseMove" name="radio" onclick="javascript:myCmiWindow.setMouseModeToMovement()" /><label for="MouseMove">Move</label>
-    <input type="radio" id="MouseZoom" name="radio" onclick="javascript:myCmiWindow.setMouseModeToZoom()"/><label id="MouseZoomLabel" for="MouseZoom">Zoom</label>
-    <input type="radio" id="MouseRotate" name="radio" onclick="javascript:myCmiWindow.setMouseModeToRotation()" checked="checked"/><label id="MouseRotateLabel" for="MouseRotate">Rotate</label>
-    <button name="ZoomAll" type="button" value="Zoom All" alt="Zoom All" onclick="javascript:myCmiWindow.zoomAll()">Zoom All</button>
-    <input type="checkbox" id="FirstPersonView" name="checkbox" onclick="javascript:Switch2FirstPersonView(this)" /><label for="FirstPersonView">1st person view</label>
+    <input type="radio" id="MouseMove" name="radio" onclick="javascript:myCmiWindow.setMouseModeToMovement()" /><label for="MouseMove">移动</label>
+    <input type="radio" id="MouseZoom" name="radio" onclick="javascript:myCmiWindow.setMouseModeToZoom()"/><label id="MouseZoomLabel" for="MouseZoom">缩放</label>
+    <input type="radio" id="MouseRotate" name="radio" onclick="javascript:myCmiWindow.setMouseModeToRotation()" checked="checked"/><label id="MouseRotateLabel" for="MouseRotate">旋转</label>
+    <button name="ZoomAll" type="button" value="Zoom All" alt="Zoom All" onclick="javascript:myCmiWindow.zoomAll()">缩放所有</button>
+    <input type="checkbox" id="FirstPersonView" name="checkbox" onclick="javascript:Switch2FirstPersonView(this)" /><label for="FirstPersonView">个人视角</label>
     <select size="1" length=50 id="ViewSelection" onchange="javascript:switchView(this,myCmiWindow)">
       <option>Start view</option>
       <option>Front view</option>

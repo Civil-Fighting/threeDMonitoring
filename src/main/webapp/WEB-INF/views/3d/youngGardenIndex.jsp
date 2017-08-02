@@ -144,7 +144,7 @@
 
         function SetInfoText(newText)
         {
-            infoText.innerHTML = newText;
+//            infoText.innerHTML = newText;
         }
 
         function SetStatusText(newText)
