@@ -1,6 +1,7 @@
 package com.vzs.myweb.configuration;
 
 import com.vzs.myweb.configuration.handlebar.VzsEnableHandlebar;
+import com.vzs.myweb.configuration.mq.kafka.VzsEnableKafka;
 import com.vzs.myweb.web.Webs;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 @Configuration
 //@EnableAspectJAutoProxy
 @VzsEnableHandlebar
+//@VzsEnableKafka
 @ComponentScan(basePackageClasses = { Webs.class})
 public class ServletApplicationContext extends WebMvcConfigurationSupport {
 

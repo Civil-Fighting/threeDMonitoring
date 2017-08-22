@@ -111,10 +111,12 @@
                 }
                 //SetInfoText("Direct export from Autodesk's Revit &reg;");
                 SetInfoText("");
-                myCmiWindow.setBgSkyBox("SunSet");
+//                myCmiWindow.setBgColorRGB("#FFFFFF")
+                myCmiWindow.setBgSkyBox("SnowMountain");
+//                myCmiWindow.setBgSkyBox("Mars");
                 myCmiWindow.useSkyBoxBackground = true;
                 myCmiWindow.setNotificationHandler(OnCmiNotification);
-                myCmiWindow.loadModelFromUrl("http://localhost:8080/resources/js/3d/youngGarde2.wpm");
+                myCmiWindow.loadModelFromUrl("http://localhost:8080/resources/js/3d/zhuhai.wpm");
                 myCmiWindow.switchToPerspective(true);
                 myCmiWindow.setMouseModeToRotation();
                 myCmiWindow.handleArrowKeys = false;
